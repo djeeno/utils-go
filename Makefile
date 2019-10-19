@@ -21,6 +21,7 @@ test:  ## run test
 
 release:  ## release as ${VERSION}
 	# release as ${VERSION}
-	@if [ "`git diff`" != "" ]; then echo "Uncommitted changes."; false; fi
+	@if [ "`git diff; git diff --staged`" != "" ]; then echo "Uncommitted changes."; false; fi
 	git tag -a "${VERSION}" -m "release ${VERSION}"
+	git push
 	git push --tags
