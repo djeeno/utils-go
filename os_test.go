@@ -25,6 +25,6 @@ func TestEnvT_GetOrDefault(t *testing.T) {
 }
 
 func TestEnvironment_GetOrFatal(t *testing.T) {
-	OS := osT{LogFatallnFunc: log.Println,}
+	OS := osT{logFatallnFunc: log.Println,}
 	OS.GetEnvOrFatal("test: TestEnvironment_GetOrExit()")
 }

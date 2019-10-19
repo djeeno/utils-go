@@ -6,11 +6,11 @@ import (
 )
 
 var Log = logT{
-	LogFatallnFunc: log.Fatalln,
+	logFatallnFunc: log.Fatalln,
 }
 
 type logT struct {
-	LogFatallnFunc func(v ...interface{})
+	logFatallnFunc func(v ...interface{})
 }
 
 // Printfln calls Output to print to the standard logger *with new line*.
@@ -21,5 +21,5 @@ func (logT) Printfln(format string, v ...interface{}) {
 
 // Fatalfln is equivalent to Printfln() followed by a call to os.Exit(1).
 func (l logT) Fatalfln(format string, v ...interface{}) {
-	l.LogFatallnFunc(fmt.Sprintf(format, v...))
+	l.logFatallnFunc(fmt.Sprintf(format, v...))
 }
