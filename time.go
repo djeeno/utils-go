@@ -1,6 +1,9 @@
 package utils
 
-import "time"
+import (
+	"math/rand"
+	"time"
+)
 
 var Time timeT
 
@@ -20,4 +23,13 @@ func (timeT) NowUTC() (utcRFC3339Nano string) {
 // NowLocal returns now local time zone date string formatted RFC3339Nano.
 func (timeT) NowLocal() (localRFC3339Nano string) {
 	return time.Now().In(time.Local).Format(time.RFC3339Nano)
+}
+
+// SleepRandomMicrosecond is
+func (timeT) SleepRandomMicrosecond(seed int64) {
+	if seed == 0 {
+		seed = int64(time.Now().Nanosecond())
+	}
+	rand.Seed(seed)
+	time.Sleep(time.Duration(rand.Intn(1000)) * time.Microsecond)
 }

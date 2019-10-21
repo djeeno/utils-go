@@ -13,3 +13,8 @@ func TestTimeT_NowUTC(t *testing.T) {
 func TestTimeT_NowLocal(t *testing.T) {
 	Time.NowLocal()
 }
+
+func TestTimeT_SleepRandomMicrosecond(t *testing.T) {
+	Time.SleepRandomMicrosecond(1)
+	Time.SleepRandomMicrosecond(0)
+}
