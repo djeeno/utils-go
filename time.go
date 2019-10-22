@@ -25,11 +25,20 @@ func (timeT) NowLocal() (localRFC3339Nano string) {
 	return time.Now().In(time.Local).Format(time.RFC3339Nano)
 }
 
-// SleepRandomMicrosecond is
-func (timeT) SleepRandomMicrosecond(seed int64) {
+// SleepRandomMicroseconds sleeps for random microseconds.
+func (timeT) SleepRandomMicroseconds(seed int64) {
 	if seed == 0 {
 		seed = int64(time.Now().Nanosecond())
 	}
 	rand.Seed(seed)
 	time.Sleep(time.Duration(rand.Intn(1000)) * time.Microsecond)
+}
+
+// SleepRandomMilliseconds sleeps for random milliseconds.
+func (timeT) SleepRandomMilliseconds(seed int64) {
+	if seed == 0 {
+		seed = int64(time.Now().Nanosecond())
+	}
+	rand.Seed(seed)
+	time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
 }

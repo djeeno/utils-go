@@ -1,14 +1,14 @@
 SHELL := /bin/bash
 GO_PROJECT := github.com/djeeno/utils-go
 REPOSITORY_ROOT := ~/go/src/${GO_PROJECT}
-VERSION := v0.0.3
+VERSION := v0.0.4
 REVISION := $(shell git rev-parse HEAD)
 BUILD_DATE := $(shell TZ=UTC date +%Y%m%d%H%M%S)
 GO_VERSION := $(shell go version)
 BUILD_OPTS := -ldflags '-X "main.version=${VERSION}" -X "main.hash=${REVISION}" -X "main.builddate=${BUILD_DATE}" -X "main.goversion=${GO_VERSION}"'
 
 ##
-# ターゲット
+# targets
 ##
 .PHONY: help
 .DEFAULT_GOAL := help
