@@ -6,10 +6,10 @@ import (
 )
 
 func TestLogT_Printfln(t *testing.T) {
-	Log.Printfln("test: TestLogT_Printfln()")
+	Log.Printfln("test: %s", "TestLogT_Printfln()")
 }
 
 func TestLogT_Fatalfln(t *testing.T) {
 	Log := logT{logFatallnFunc: log.Println,}
-	Log.Fatalfln("test: TestLogT_Fatalfln()")
+	Log.Fatalfln("test: %s", "TestLogT_Fatalfln()")
 }
