@@ -7,5 +7,5 @@ func TestFmtT_Printfln(t *testing.T) {
 }
 
 func TestFmtT_PrintflnStderr(t *testing.T) {
-	Fmt.Printfln("test: %s", "TestFmtT_PrintflnStderr()")
+	Fmt.PrintflnStderr("test: %s", "TestFmtT_PrintflnStderr()")
 }

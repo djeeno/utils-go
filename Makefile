@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 GO_PROJECT := github.com/djeeno/utils-go
 REPOSITORY_ROOT := ~/go/src/${GO_PROJECT}
-VERSION := v0.0.8
+VERSION := v0.0.9
 REVISION := $(shell git rev-parse HEAD)
 BUILD_DATE := $(shell TZ=UTC date +%Y%m%d%H%M%S)
 GO_VERSION := $(shell go version)
@@ -27,9 +27,15 @@ test-v:  ## run test
 	go tool cover -html=_test/cover.out -o _test/cover.html
 	${OPEN_HTML_CMD} _test/cover.html
 
-release: test ## release as ${VERSION}
+check-uncommitted:
+	@if [ "`git diff; git diff --staged`" != "" ]; then\
+		echo "Uncommitted changes. Execute the following command:";\
+		echo "git commit -m 'release ${VERSION}'";\
+		false;\
+	fi
+
+release: check-uncommitted test ## release as ${VERSION}
 	# release ${VERSION}
-	@if [ "`git diff; git diff --staged`" != "" ]; then echo "Uncommitted changes."; false; fi
 	git tag -a "${VERSION}" -m "release ${VERSION}"
 	git push
 	git push --tags
