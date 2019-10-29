@@ -18,5 +18,5 @@ func (fmtT) Printfln(format string, a ...interface{}) {
 // Printfln formats according to a format specifier and writes to standard output *with new line*.
 // It returns the number of bytes written and any write error encountered.
 func (fmtT) PrintflnStderr(format string, a ...interface{}) {
-	fmt.Println(fmt.Fprintf(os.Stderr, format, a...))
+	_, _ = fmt.Fprintln(os.Stderr, fmt.Sprintf(format, a...))
 }
