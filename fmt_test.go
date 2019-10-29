@@ -1,7 +1,9 @@
 package utils
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestFmtT_Printfln(t *testing.T) {
-	_, _ = Fmt.Printfln("test: %s", "TestFmtT_Printfln()")
+	Fmt.Printfln("test: %s", "TestFmtT_Printfln()")
 }

@@ -10,6 +10,6 @@ func TestLogT_Printfln(t *testing.T) {
 }
 
 func TestLogT_Fatalfln(t *testing.T) {
-	Log := logT{logFatallnFunc: log.Println,}
+	Log := logT{fatallnFunc: log.Println,}
 	Log.Fatalfln("test: %s", "TestLogT_Fatalfln()")
 }
