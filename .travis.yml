@@ -20,5 +20,5 @@ before_script:
 
 script:
   - golangci-lint run
-  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
-  - bash <(curl -s https://codecov.io/bash)
+  - go test -v -race -coverprofile=coverage.txt -covermode=atomic ./... # for codecov
+  - bash <(curl -s https://codecov.io/bash)                             # ref. https://github.com/codecov/example-go
