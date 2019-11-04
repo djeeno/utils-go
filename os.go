@@ -33,3 +33,10 @@ func (o osT) GetEnvOrFatal(key string) (value string) {
 	}
 	return value
 }
+
+// Exists returns true if anything exists in the path.
+// ref. https://qiita.com/hnakamur/items/848097aad846d40ae84b
+func (osT) Exists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
+}

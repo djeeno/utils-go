@@ -28,3 +28,9 @@ func TestEnvironment_GetOrFatal(t *testing.T) {
 	OS := osT{logFatallnFunc: log.Println,}
 	OS.GetEnvOrFatal("test: TestEnvironment_GetOrExit()")
 }
+
+func TestOsT_Exists(t *testing.T) {
+	if !OS.Exists("/") {
+		t.Errorf("test: TestOsT_Exists(): OS.Exists()")
+	}
+}
