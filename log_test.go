@@ -5,11 +5,13 @@ import (
 	"testing"
 )
 
+var testLog = Log
+
 func TestLogT_Printfln(t *testing.T) {
-	Log.Printfln("test: %s", "TestLogT_Printfln()")
+	testLog.Printfln("test: %s", "TestLogT_Printfln()")
 }
 
 func TestLogT_Fatalfln(t *testing.T) {
-	Log := logT{fatallnFunc: log.Println,}
-	Log.Fatalfln("test: %s", "TestLogT_Fatalfln()")
+	testLog.fatallnFunc = log.Println
+	testLog.Fatalfln("test: %s", "TestLogT_Fatalfln()")
 }

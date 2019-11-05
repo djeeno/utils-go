@@ -6,14 +6,16 @@ import (
 	"testing"
 )
 
+var testMultipart = Multipart
+
 func TestMultipartT_CreateFormFile(t *testing.T) {
 	t.Helper()
 
 	requestBody := &bytes.Buffer{}
 	multipartWriter := multipart.NewWriter(requestBody)
 
-	if _, err := Multipart.CreateFormFile(multipartWriter, "", ""); err != nil {
-		t.Errorf("TestMultipartT_CreateFormFile(): Multipart.CreateFormFile(): err != nil")
+	if _, err := testMultipart.CreateFormFile(multipartWriter, "", ""); err != nil {
+		t.Errorf("TestMultipartT_CreateFormFile(): testMultipart.CreateFormFile(): err != nil")
 	}
 
 }

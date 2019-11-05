@@ -6,17 +6,18 @@ import (
 )
 
 var test16Bytes = [16]byte{0x03, 0x01, 0x04, 0x01, 0x05, 0x09, 0x02, 0x06, 0x05, 0x03, 0x05, 0x08, 0x09, 0x07, 0x09, 0x03}
+var testBinary = Binary
 
 func TestBigEndian_String(t *testing.T) {
-	if Binary.BigEndian.String() != "BigEndian" {
-		t.Errorf("BigEndian.String() failed.\n")
+	if testBinary.BigEndian.String() != "BigEndian" {
+		t.Errorf("TestBigEndian_String(): testBinary.BigEndian.String() failed.\n")
 	}
 }
 
 func TestBigEndian_Get16Bytes(t *testing.T) {
 	var testBigEndianSliceGet = []byte{0x0f, 0x03, 0x01, 0x04, 0x01, 0x05, 0x09, 0x02, 0x06, 0x05, 0x03, 0x05, 0x08, 0x09, 0x07, 0x09, 0x03, 0x0f}
-	if test16Bytes != Binary.BigEndian.Get16Bytes(testBigEndianSliceGet[1:17]) {
-		t.Errorf("BigEndian.Get16Bytes() failed.\n")
+	if test16Bytes != testBinary.BigEndian.Get16Bytes(testBigEndianSliceGet[1:17]) {
+		t.Errorf("TestBigEndian_Get16Bytes(): testBinary.BigEndian.Get16Bytes() failed.\n")
 	}
 }
 
@@ -24,22 +25,22 @@ func TestBigEndian_Put16Bytes(t *testing.T) {
 	var testBigEndianSlicePut = []byte{0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f}
 	var testSlicePutResult = []byte{0x0f, 0x03, 0x01, 0x04, 0x01, 0x05, 0x09, 0x02, 0x06, 0x05, 0x03, 0x05, 0x08, 0x09, 0x07, 0x09, 0x03, 0x0f}
 
-	Binary.BigEndian.Put16Bytes(testBigEndianSlicePut[0:16], test16Bytes)
+	testBinary.BigEndian.Put16Bytes(testBigEndianSlicePut[0:16], test16Bytes)
 	if bytes.Equal(testBigEndianSlicePut, testSlicePutResult) {
-		t.Errorf("BigEndian.Put16Bytes() failed.\n")
+		t.Errorf("TestBigEndian_Put16Bytes(): testBinary.BigEndian.Put16Bytes() failed.\n")
 	}
 }
 
 func TestLittleEndianT_String(t *testing.T) {
-	if Binary.LittleEndian.String() != "LittleEndian" {
-		t.Errorf("TestLittleEndianT_String(): Binary.LittleEndian.String() failed.\n")
+	if testBinary.LittleEndian.String() != "LittleEndian" {
+		t.Errorf("TestLittleEndianT_String(): testBinary.LittleEndian.String() failed.\n")
 	}
 }
 
 func TestLittleEndianT_Get16Bytes(t *testing.T) {
 	var testLittleEndianSliceGet = []byte{0x0f, 0x03, 0x09, 0x07, 0x09, 0x08, 0x05, 0x03, 0x05, 0x06, 0x02, 0x09, 0x05, 0x01, 0x04, 0x01, 0x03, 0x0f}
-	if test16Bytes != Binary.LittleEndian.Get16Bytes(testLittleEndianSliceGet[1:17]) {
-		t.Errorf("TestLittleEndianT_Get16Bytes(): Binary.LittleEndian.Get16Bytes() failed.\n")
+	if test16Bytes != testBinary.LittleEndian.Get16Bytes(testLittleEndianSliceGet[1:17]) {
+		t.Errorf("TestLittleEndianT_Get16Bytes(): testBinary.LittleEndian.Get16Bytes() failed.\n")
 	}
 }
 
@@ -47,8 +48,8 @@ func TestLittleEndianT_Put16Bytes(t *testing.T) {
 	var testLittleEndianSlicePut = []byte{0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f, 0x0f}
 	var testLittleEndianSlicePutResult = []byte{0x0f, 0x03, 0x09, 0x07, 0x09, 0x08, 0x05, 0x03, 0x05, 0x06, 0x02, 0x09, 0x05, 0x01, 0x04, 0x01, 0x03, 0x0f}
 
-	Binary.LittleEndian.Put16Bytes(testLittleEndianSlicePut[0:16], test16Bytes)
+	testBinary.LittleEndian.Put16Bytes(testLittleEndianSlicePut[0:16], test16Bytes)
 	if bytes.Equal(testLittleEndianSlicePut, testLittleEndianSlicePutResult) {
-		t.Errorf("BigEndian.Put16Bytes() failed.\n")
+		t.Errorf("TestLittleEndianT_Put16Bytes(): testBinary.LittleEndian.Put16Bytes() failed.\n")
 	}
 }

@@ -6,31 +6,33 @@ import (
 	"testing"
 )
 
-func TestEnvT_GetOrDefault(t *testing.T) {
+var testOS = OS
+
+func TestOsT_GetEnvOrDefault(t *testing.T) {
 	// Default
 	if err := os.Setenv("TEST_ENV", ""); err != nil {
-		t.Errorf("test: TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
+		t.Errorf("TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
 	}
-	if "nullString" != OS.GetEnvOrDefault("TEST_ENV", "nullString") {
-		t.Errorf("test: TestEnvT_GetOrDefault(): Env.GetOrDefault()")
+	if "nullString" != testOS.GetEnvOrDefault("TEST_ENV", "nullString") {
+		t.Errorf("TestEnvT_GetOrDefault(): testOS.GetEnvOrDefault()")
 	}
 
 	// Get
 	if err := os.Setenv("TEST_ENV", "assert"); err != nil {
-		t.Errorf("test: TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
+		t.Errorf("TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
 	}
-	if "assert" != OS.GetEnvOrDefault("TEST_ENV", "nullString") {
-		t.Errorf("test: TestEnvT_GetOrDefault(): Env.GetOrDefault()")
+	if "assert" != testOS.GetEnvOrDefault("TEST_ENV", "nullString") {
+		t.Errorf("TestEnvT_GetOrDefault(): testOS.GetEnvOrDefault()")
 	}
 }
 
-func TestEnvironment_GetOrFatal(t *testing.T) {
-	OS := osT{logFatallnFunc: log.Println,}
-	OS.GetEnvOrFatal("test: TestEnvironment_GetOrExit()")
+func TestOsT_GetEnvOrFatal(t *testing.T) {
+	testOS.logFatallnFunc = log.Println
+	testOS.GetEnvOrFatal("TestEnvironment_GetOrFatal()")
 }
 
 func TestOsT_Exists(t *testing.T) {
-	if !OS.Exists("/") {
-		t.Errorf("test: TestOsT_Exists(): OS.Exists()")
+	if !testOS.Exists("/") {
+		t.Errorf("TestEnvT_GetOrDefault(): testOS.Exists()")
 	}
 }

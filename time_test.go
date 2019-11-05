@@ -2,21 +2,23 @@ package utils
 
 import "testing"
 
+var testTime = Time
+
 func TestTimeT_NowUnixTime(t *testing.T) {
-	Time.NowUnixTime()
+	testTime.NowUnixTime()
 }
 
 func TestTimeT_NowUTC(t *testing.T) {
-	Time.NowUTC()
+	testTime.NowUTC()
 }
 
 func TestTimeT_NowLocal(t *testing.T) {
-	Time.NowLocal()
+	testTime.NowLocal()
 }
 
 func TestTimeT_SleepRandomMicrosecond(t *testing.T) {
-	Time.SleepRandomMicroseconds(1)
-	Time.SleepRandomMicroseconds(0)
-	Time.SleepRandomMilliseconds(1)
-	Time.SleepRandomMilliseconds(0)
+	testTime.SleepRandomMicroseconds(1)
+	testTime.SleepRandomMicroseconds(0)
+	testTime.SleepRandomMilliseconds(1)
+	testTime.SleepRandomMilliseconds(0)
 }
