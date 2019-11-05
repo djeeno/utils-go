@@ -21,7 +21,7 @@ func TestMd5T_SumToString(t *testing.T) {
 	Log.Printfln("%s: %s", file.Name(), md5s)
 
 	testMD5.ioutilReadAllFunc = func(r io.Reader) (bytes []byte, e error) {
-		return nil, ErrDummy
+		return nil, ErrorDummyErrorForTest
 	}
 	if _, err := testMD5.SumToString(file); err == nil {
 		t.Errorf("TestMd5T_SumToString(): testMD5.SumToString(): err == nil: %v", err)
