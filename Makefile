@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 GO_PROJECT := github.com/djeeno/utils-go
 REPOSITORY_ROOT := ~/go/src/${GO_PROJECT}
-VERSION := v0.0.15
+VERSION := v0.0.16
 REVISION := $(shell git rev-parse HEAD)
 BUILD_DATE := $(shell TZ=UTC date +%Y%m%d%H%M%S)
 GO_VERSION := $(shell go version)
