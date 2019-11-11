@@ -8,15 +8,15 @@ import (
 )
 
 var MD5 = md5T{
-	ioutilReadAllFunc: ioutil.ReadAll,
+	ioutilReadAllFn: ioutil.ReadAll,
 }
 
 type md5T struct {
-	ioutilReadAllFunc func(r io.Reader) ([]byte, error)
+	ioutilReadAllFn func(r io.Reader) ([]byte, error)
 }
 
 func (m *md5T) Sum(file io.Reader) (md5Hex [16]byte, err error) {
-	buf, err := m.ioutilReadAllFunc(file)
+	buf, err := m.ioutilReadAllFn(file)
 	if err != nil {
 		return [16]byte{}, err
 	}

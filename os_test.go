@@ -6,39 +6,42 @@ import (
 	"testing"
 )
 
-var testOS = OS
-
 func TestOsT_GetEnvOrDefault(t *testing.T) {
 	t.Helper()
+	testOS := OS
 
-	// Default
-	if err := os.Setenv("TEST_ENV", ""); err != nil {
-		t.Errorf("TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
-	}
-	if "nullString" != testOS.GetEnvOrDefault("TEST_ENV", "nullString") {
-		t.Errorf("TestEnvT_GetOrDefault(): testOS.GetEnvOrDefault()")
-	}
+	t.Run("normal/OS.GetEnvOrDefault/Get", func(t *testing.T) {
+		if err := os.Setenv("TEST_ENV", "assert"); err != nil {
+			t.Fatalf("TestOsT_GetEnvOrDefault(): os.Setenv(): %v", err)
+		}
+		if "assert" != testOS.GetEnvOrDefault("TEST_ENV", "nullString") {
+			t.Errorf("TestOsT_GetEnvOrDefault(): testOS.GetEnvOrDefault()")
+		}
+	})
 
-	// Get
-	if err := os.Setenv("TEST_ENV", "assert"); err != nil {
-		t.Errorf("TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
-	}
-	if "assert" != testOS.GetEnvOrDefault("TEST_ENV", "nullString") {
-		t.Errorf("TestEnvT_GetOrDefault(): testOS.GetEnvOrDefault()")
-	}
+	t.Run("normal/OS.GetEnvOrDefault/Default", func(t *testing.T) {
+		if err := os.Setenv("TEST_ENV", ""); err != nil {
+			t.Fatalf("TestOsT_GetEnvOrDefault(): os.Setenv(): %v", err)
+		}
+		if "nullString" != testOS.GetEnvOrDefault("TEST_ENV", "nullString") {
+			t.Errorf("TestOsT_GetEnvOrDefault(): testOS.GetEnvOrDefault()")
+		}
+	})
 }
 
 func TestOsT_GetEnvOrFatal(t *testing.T) {
 	t.Helper()
+	testOS := OS
 
 	testOS.logFatallnFunc = log.Println
-	testOS.GetEnvOrFatal("TestEnvironment_GetOrFatal()")
+	testOS.GetEnvOrFatal("TestOsT_GetEnvOrFatal")
 }
 
 func TestOsT_Exists(t *testing.T) {
 	t.Helper()
+	testOS := OS
 
 	if !testOS.Exists("/") {
-		t.Errorf("TestEnvT_GetOrDefault(): testOS.Exists()")
+		t.Errorf("TestOsT_Exists(): testOS.Exists()")
 	}
 }
