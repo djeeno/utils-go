@@ -7,15 +7,15 @@ import (
 )
 
 var JSON = jsonT{
-	ioutilReadAllFunc: ioutil.ReadAll,
+	ioutilReadAllFn: ioutil.ReadAll,
 }
 
 type jsonT struct {
-	ioutilReadAllFunc func(r io.Reader) ([]byte, error)
+	ioutilReadAllFn func(r io.Reader) ([]byte, error)
 }
 
 func (j *jsonT) Unmarshal(r io.Reader, structPointer interface{}) error {
-	buf, err := j.ioutilReadAllFunc(r)
+	buf, err := j.ioutilReadAllFn(r)
 	if err != nil {
 		return err
 	}
