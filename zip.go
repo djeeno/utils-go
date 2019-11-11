@@ -28,7 +28,7 @@ func zipWriterCreate(w *zip.Writer, name string) (io.Writer, error) {
 	return w.Create(name)
 }
 
-func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string) error {
+func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, withoutRootDirectory bool) error {
 	zipFile, err := z.osCreateFn(zipFilePath)
 	if err != nil {
 		return err
@@ -37,7 +37,12 @@ func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string) err
 	zw := zip.NewWriter(zipFile)
 
 	walkFunc := func(filePath string, info os.FileInfo, err error) error {
-		return walkFunc(z, zw, directoryPathToArchive, filePath, info, err)
+		return walkFuncForArchivesRecursive(z, zw, filepath.Dir(directoryPathToArchive)+"/", filePath, info, err)
+	}
+	if withoutRootDirectory {
+		walkFunc = func(filePath string, info os.FileInfo, err error) error {
+			return walkFuncForArchivesRecursive(z, zw, directoryPathToArchive+"/", filePath, info, err)
+		}
 	}
 
 	if err := z.filepathWalkFn(directoryPathToArchive, walkFunc); err != nil {
@@ -47,12 +52,12 @@ func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string) err
 	return zw.Close()
 }
 
-func walkFunc(z *zipT, zw *zip.Writer, directoryPathToArchive string, filePath string, info os.FileInfo, err error) error {
+func walkFuncForArchivesRecursive(z *zipT, zw *zip.Writer, prefixTrimmingRelativePath string, filePath string, info os.FileInfo, err error) error {
 	if err != nil {
 		return err
 	}
 
-	relativePath := strings.TrimPrefix(filePath, filepath.Dir(directoryPathToArchive)+"/")
+	relativePath := strings.TrimPrefix(filePath, prefixTrimmingRelativePath)
 	if info.IsDir() {
 		relativePath = relativePath + "/" // directory
 	}
