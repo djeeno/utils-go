@@ -13,6 +13,8 @@ type testJSONT struct {
 }
 
 func TestJsonT_Unmarshal(t *testing.T) {
+	t.Helper()
+
 	// normal
 	{
 		testStruct := testJSONT{}

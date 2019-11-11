@@ -9,6 +9,6 @@ var Multipart = multipartT{}
 
 type multipartT struct{}
 
-func (multipartT) CreateFormFile(multipartWriter *multipart.Writer, fieldname, filename string) (io.Writer, error) {
-	return multipartWriter.CreateFormFile(fieldname, filename)
+func (multipartT) CreateFormFile(multipartWriter *multipart.Writer, fieldName, filename string) (io.Writer, error) {
+	return multipartWriter.CreateFormFile(fieldName, filename)
 }

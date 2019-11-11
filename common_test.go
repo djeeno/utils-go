@@ -2,4 +2,10 @@ package utils
 
 import "errors"
 
-var ErrorDummyErrorForTest = errors.New("dummy error for test")
+const (
+	testTmpRootDirPath = "/tmp/.golang/github.com/djeeno/utils"
+)
+
+var (
+	ErrorDummyErrorForTest = errors.New("dummy error for test")
+)

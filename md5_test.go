@@ -9,6 +9,8 @@ import (
 var testMD5 = MD5
 
 func TestMd5T_SumToString(t *testing.T) {
+	t.Helper()
+
 	file, err := os.OpenFile("/etc/hosts", os.O_RDONLY, 0644)
 	if err != nil {
 		t.Errorf("TestMd5T_SumToString(): os.OpenFile(): %v", err)

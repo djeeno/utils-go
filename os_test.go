@@ -9,6 +9,8 @@ import (
 var testOS = OS
 
 func TestOsT_GetEnvOrDefault(t *testing.T) {
+	t.Helper()
+
 	// Default
 	if err := os.Setenv("TEST_ENV", ""); err != nil {
 		t.Errorf("TestEnvT_GetOrDefault(): os.Setenv(): %v", err)
@@ -27,11 +29,15 @@ func TestOsT_GetEnvOrDefault(t *testing.T) {
 }
 
 func TestOsT_GetEnvOrFatal(t *testing.T) {
+	t.Helper()
+
 	testOS.logFatallnFunc = log.Println
 	testOS.GetEnvOrFatal("TestEnvironment_GetOrFatal()")
 }
 
 func TestOsT_Exists(t *testing.T) {
+	t.Helper()
+
 	if !testOS.Exists("/") {
 		t.Errorf("TestEnvT_GetOrDefault(): testOS.Exists()")
 	}

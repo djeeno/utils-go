@@ -13,6 +13,8 @@ const (
 var testNet = Net
 
 func TestIpT_UnmarshalText(t *testing.T) {
+	t.Helper()
+
 	ip, err := testNet.IP.UnmarshalText([]byte(localhostV4))
 	if err != nil {
 		t.Errorf("test: TestIpT_UnmarshalText(): Net.IP.UnmarshalText()")
