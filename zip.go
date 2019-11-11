@@ -28,20 +28,24 @@ func zipWriterCreate(w *zip.Writer, name string) (io.Writer, error) {
 	return w.Create(name)
 }
 
-func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, withoutRootDirectory bool) error {
+func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, withoutRootDirectory bool) (errForDeferClose error) {
 	zipFile, err := z.osCreateFn(zipFilePath)
 	if err != nil {
 		return err
 	}
 
 	zw := zip.NewWriter(zipFile)
+	defer func() {
+		errForDeferClose = zw.Close()
+		return
+	}()
 
 	walkFunc := func(filePath string, info os.FileInfo, err error) error {
-		return walkFuncForArchivesRecursive(z, zw, filepath.Dir(directoryPathToArchive)+"/", filePath, info, err)
+		return funcForWalkFunc(z, zw, filepath.Dir(directoryPathToArchive)+"/", filePath, info, err)
 	}
 	if withoutRootDirectory {
 		walkFunc = func(filePath string, info os.FileInfo, err error) error {
-			return walkFuncForArchivesRecursive(z, zw, directoryPathToArchive+"/", filePath, info, err)
+			return funcForWalkFunc(z, zw, directoryPathToArchive+"/", filePath, info, err)
 		}
 	}
 
@@ -49,10 +53,10 @@ func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, wit
 		return err
 	}
 
-	return zw.Close()
+	return nil
 }
 
-func walkFuncForArchivesRecursive(z *zipT, zw *zip.Writer, prefixTrimmingRelativePath string, filePath string, info os.FileInfo, err error) error {
+func funcForWalkFunc(z *zipT, zw *zip.Writer, prefixTrimmingRelativePath string, filePath string, info os.FileInfo, err error) error {
 	if err != nil {
 		return err
 	}
@@ -61,20 +65,22 @@ func walkFuncForArchivesRecursive(z *zipT, zw *zip.Writer, prefixTrimmingRelativ
 	if info.IsDir() {
 		relativePath = relativePath + "/" // directory
 	}
-	fileInZipWriter, err := z.zipWriterCreateFn(zw, relativePath)
+	destinationFile, err := z.zipWriterCreateFn(zw, relativePath)
 	if err != nil {
 		return err
 	}
 	if info.IsDir() {
 		return nil
 	}
-	fsFile, err := z.osOpenFn(filePath)
+
+	sourceFile, err := z.osOpenFn(filePath)
 	if err != nil {
 		return err
 	}
-	_, err = z.ioCopyFn(fileInZipWriter, fsFile)
+	_, err = z.ioCopyFn(destinationFile, sourceFile)
 	if err != nil {
 		return err
 	}
+
 	return nil
 }

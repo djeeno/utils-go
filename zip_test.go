@@ -72,20 +72,20 @@ func TestZipT_ArchivesRecursive(t *testing.T) {
 		}
 	})
 
-	t.Run("non-normal/walkFuncForArchivesRecursive", func(t *testing.T) {
-		if err := walkFuncForArchivesRecursive(nil, nil, "", "", nil, ErrorDummyErrorForTest); err == nil {
-			t.Error("TestZipT_ArchivesRecursive(): walkFuncForArchivesRecursive(): err == nil")
-		}
-	})
-
-	t.Run("normal/withoutRootDirectory=false", func(t *testing.T) {
-		if err := ZIP.ArchivesRecursive(testTmpZipDirPath+"/test.zip", testTmpZipDirPath, false); err != nil {
-			t.Errorf("TestZipT_ArchivesRecursive(): ZIP.ArchivesRecursive(): err != nil: %v", err)
+	t.Run("non-normal/funcForWalkFunc", func(t *testing.T) {
+		if err := funcForWalkFunc(nil, nil, "", "", nil, ErrorDummyErrorForTest); err == nil {
+			t.Error("TestZipT_ArchivesRecursive(): funcForWalkFunc(): err == nil")
 		}
 	})
 
 	t.Run("normal/withoutRootDirectory=true", func(t *testing.T) {
 		if err := ZIP.ArchivesRecursive(testTmpZipDirPath+"/test.zip", testTmpZipDirPath, true); err != nil {
+			t.Errorf("TestZipT_ArchivesRecursive(): ZIP.ArchivesRecursive(): err != nil: %v", err)
+		}
+	})
+
+	t.Run("normal/withoutRootDirectory=false", func(t *testing.T) {
+		if err := ZIP.ArchivesRecursive(testTmpZipDirPath+"/test.zip", testTmpZipDirPath, false); err != nil {
 			t.Errorf("TestZipT_ArchivesRecursive(): ZIP.ArchivesRecursive(): err != nil: %v", err)
 		}
 	})
