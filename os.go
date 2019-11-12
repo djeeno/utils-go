@@ -6,11 +6,11 @@ import (
 )
 
 var OS = osT{
-	logFatallnFunc: log.Fatalln,
+	logFatalfFn: log.Fatalf,
 }
 
 type osT struct {
-	logFatallnFunc func(...interface{})
+	logFatalfFn func(format string, v ...interface{})
 }
 
 // GetEnvOrDefault finding a value corresponding to the passed environment variable key,
@@ -18,7 +18,7 @@ type osT struct {
 func (osT) GetEnvOrDefault(key, defaultValue string) (value string) {
 	value = os.Getenv(key)
 	if value == "" {
-		log.Println(key, "is empty. use default value:", defaultValue)
+		log.Printf("%s is empty. use default value: %s\n", key, defaultValue)
 		value = defaultValue
 	}
 	return value
@@ -29,7 +29,7 @@ func (osT) GetEnvOrDefault(key, defaultValue string) (value string) {
 func (o osT) GetEnvOrFatal(key string) (value string) {
 	value = os.Getenv(key)
 	if value == "" {
-		o.logFatallnFunc(key, "is empty.")
+		o.logFatalfFn("%s is empty.\n", key)
 	}
 	return value
 }

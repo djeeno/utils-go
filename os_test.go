@@ -33,7 +33,7 @@ func TestOsT_GetEnvOrFatal(t *testing.T) {
 	t.Helper()
 	testOS := OS
 
-	testOS.logFatallnFunc = log.Println
+	testOS.logFatalfFn = log.Println
 	testOS.GetEnvOrFatal("TestOsT_GetEnvOrFatal")
 }
 
