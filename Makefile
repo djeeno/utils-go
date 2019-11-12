@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 GO_PROJECT := github.com/djeeno/utils-go
 REPOSITORY_ROOT := ~/go/src/${GO_PROJECT}
-VERSION := v0.0.22
+VERSION := v0.0.23
 REVISION := $(shell git rev-parse HEAD)
 BUILD_DATE := $(shell TZ=UTC date +%Y%m%d%H%M%S)
 GO_VERSION := $(shell go version)
@@ -34,7 +34,7 @@ check-uncommitted:
 		false;\
 	fi
 
-release: check-uncommitted test ## release as ${VERSION}
+release: test check-uncommitted ## release as ${VERSION}
 	# release ${VERSION}
 	git tag -a "${VERSION}" -m "release ${VERSION}"
 	git push
