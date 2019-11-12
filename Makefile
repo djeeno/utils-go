@@ -18,12 +18,12 @@ help:  ## display help docs
 
 test:  ## run test
 	# run test
-	go test -cover -race *.go
+	go test -cover -race ./...
 
 test-v:  ## run test
 	# run test
 	mkdir -p _test
-	go test -cover -coverprofile=_test/cover.out -race -v *.go
+	go test -cover -coverprofile=_test/cover.out -race -v ./...
 	go tool cover -html=_test/cover.out -o _test/cover.html
 	${OPEN_CMD} _test/cover.html
 
