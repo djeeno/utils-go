@@ -29,7 +29,7 @@ func (osT) GetEnvOrDefault(key, defaultValue string) (value string) {
 func (o osT) GetEnvOrFatal(key string) (value string) {
 	value = os.Getenv(key)
 	if value == "" {
-		o.logFatallnFunc("%s is empty.", key)
+		o.logFatallnFunc(key, "is empty.")
 	}
 	return value
 }
