@@ -49,6 +49,9 @@ func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, wit
 	}
 	if withoutRootDirectory {
 		walkFunc = func(filePath string, info os.FileInfo, err error) error {
+			if filePath == directoryPathToArchive {
+				return nil
+			}
 			return funcForWalkFunc(z, zw, directoryPathToArchive+"/", filePath, info, err)
 		}
 	}
