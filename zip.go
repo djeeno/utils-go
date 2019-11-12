@@ -36,6 +36,10 @@ func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, wit
 
 	zw := zip.NewWriter(zipFile)
 	defer func() {
+		if errForDeferClose != nil {
+			zw.Close()
+			return
+		}
 		errForDeferClose = zw.Close()
 		return
 	}()
