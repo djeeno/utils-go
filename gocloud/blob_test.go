@@ -158,12 +158,12 @@ func TestBlobT_bucketNewWriter(t *testing.T) {
 	t.Run("non-normal/bucket.NewWriter", func(t *testing.T) {
 		testBlob := Blob
 		testContext := context.TODO()
-		defer func() { recover() }()
+		defer func() { _ = recover() }()
 		bw, err := testBlob.bucketNewWriterFn(&blob.Bucket{}, testContext, testBlobPath, nil)
+		defer func() { _ = bw.Close() }()
 		if err != nil {
 			t.Errorf("TestBlobT_bucketNewWriter(): testBlob.bucketNewWriterFn(): err != nil")
 		}
-		bw.Close()
 	})
 }
 
@@ -172,7 +172,7 @@ func TestBlobT_blobWriterWrite(t *testing.T) {
 
 	t.Run("non-normal/bucket.NewWriter", func(t *testing.T) {
 		testBlob := Blob
-		defer func() { recover() }()
+		defer func() { _ = recover() }()
 		if _, err := testBlob.blobWriterWriteFn(&blob.Writer{}, []byte{}); err != nil {
 			t.Errorf("TestBlobT_bucketNewWriter(): testBlob.blobWriterWriteFn(): err != nil")
 		}
@@ -184,7 +184,7 @@ func TestBlobT_blobWriterClose(t *testing.T) {
 
 	t.Run("non-normal/bucket.NewWriter", func(t *testing.T) {
 		testBlob := Blob
-		defer func() { recover() }()
+		defer func() { _ = recover() }()
 		if err := testBlob.blobWriterCloseFn(&blob.Writer{}); err != nil {
 			t.Errorf("TestBlobT_bucketNewWriter(): testBlob.bucketNewWriterFn(): err != nil")
 		}

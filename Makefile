@@ -17,8 +17,8 @@ help:  ## display help docs
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-40s\033[0m %s\n", $$1, $$2}'
 
 init:  ## init
-	if ! command -v golangci-lint 1>/dev/null; then \
-		go install github.com/golangci/golangci-lint/cmd/golangci-lint; \
+	if ! command -v golangci-lint 1>/dev/null; then\
+		go install github.com/golangci/golangci-lint/cmd/golangci-lint;\
 	fi
 
 lint: init ## run lint

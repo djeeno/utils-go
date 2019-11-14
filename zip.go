@@ -28,7 +28,7 @@ func zipWriterCreate(w *zip.Writer, name string) (io.Writer, error) {
 	return w.Create(name)
 }
 
-func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, withoutRootDirectory bool) (errForDeferClose error) {
+func (z *zipT) ArchivesRecursive(zipFilePath string, targetPaths []string, withoutRootDirectory bool) (errForDeferClose error) {
 	zipFile, err := z.osCreateFn(zipFilePath)
 	if err != nil {
 		return err
@@ -37,29 +37,29 @@ func (z *zipT) ArchivesRecursive(zipFilePath, directoryPathToArchive string, wit
 	zw := zip.NewWriter(zipFile)
 	defer func() {
 		if errForDeferClose != nil {
-			zw.Close()
+			_ = zw.Close()
 			return
 		}
 		errForDeferClose = zw.Close()
-		return
 	}()
 
-	walkFunc := func(filePath string, info os.FileInfo, err error) error {
-		return funcForWalkFunc(z, zw, filepath.Dir(directoryPathToArchive)+"/", filePath, info, err)
-	}
-	if withoutRootDirectory {
-		walkFunc = func(filePath string, info os.FileInfo, err error) error {
-			if filePath == directoryPathToArchive {
-				return nil
+	for _, targetPath := range targetPaths {
+		walkFunc := func(filePath string, info os.FileInfo, err error) error {
+			return funcForWalkFunc(z, zw, filepath.Dir(targetPath), filePath, info, err)
+		}
+		if withoutRootDirectory {
+			walkFunc = func(filePath string, info os.FileInfo, err error) error {
+				if filePath == targetPath {
+					return nil
+				}
+				return funcForWalkFunc(z, zw, targetPath, filePath, info, err)
 			}
-			return funcForWalkFunc(z, zw, directoryPathToArchive+"/", filePath, info, err)
+		}
+
+		if err := z.filepathWalkFn(targetPath, walkFunc); err != nil {
+			return err
 		}
 	}
-
-	if err := z.filepathWalkFn(directoryPathToArchive, walkFunc); err != nil {
-		return err
-	}
-
 	return nil
 }
 
@@ -68,7 +68,7 @@ func funcForWalkFunc(z *zipT, zw *zip.Writer, prefixTrimmingRelativePath string,
 		return err
 	}
 
-	relativePath := strings.TrimPrefix(filePath, prefixTrimmingRelativePath)
+	relativePath := strings.TrimPrefix(strings.TrimPrefix(filePath, prefixTrimmingRelativePath), "/")
 	if info.IsDir() {
 		relativePath = relativePath + "/" // directory
 	}

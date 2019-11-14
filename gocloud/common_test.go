@@ -3,7 +3,7 @@ package gocloud
 import "errors"
 
 const (
-	testTmpRootDirPath = "/tmp/.golang/github.com/djeeno/utils/utilsgocloud"
+//testTmpRootDirPath = "/tmp/.golang/github.com/djeeno/utils/utilsgocloud"
 )
 
 var (
