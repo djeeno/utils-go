@@ -16,15 +16,24 @@ OPEN_CMD := $(shell if command -v explorer.exe; then true; elif command -v open;
 help:  ## display help docs
 	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-40s\033[0m %s\n", $$1, $$2}'
 
-test:  ## run test
+init:  ## init
+	if ! command -v golangci-lint 1>/dev/null; then \
+		go install github.com/golangci/golangci-lint/cmd/golangci-lint; \
+	fi
+
+lint: init ## run lint
+	# run lint
+	golangci-lint run
+
+test: lint ## run test
 	# run test
 	go test -cover -race ./...
 
-test-v:  ## run test
+test-v: lint ## run test
 	# run test
 	mkdir -p _test
-	go test -cover -coverprofile=_test/cover.out -race -v ./...
-	go tool cover -html=_test/cover.out -o _test/cover.html
+	go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+	go tool cover -html=coverage.txt -o coverage.html
 	${OPEN_CMD} _test/cover.html
 
 check-uncommitted:
