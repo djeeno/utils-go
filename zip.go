@@ -29,6 +29,10 @@ func zipWriterCreate(w *zip.Writer, name string) (io.Writer, error) {
 }
 
 func (z *zipT) ArchivesRecursive(zipFilePath string, targetPaths []string, withoutRootDirectory bool) (errForDeferClose error) {
+	if zipFilePath == "" || zipFilePath == "/" {
+		zipFilePath = "./default.zip"
+	}
+
 	zipFile, err := z.osCreateFn(zipFilePath)
 	if err != nil {
 		return err
@@ -44,22 +48,28 @@ func (z *zipT) ArchivesRecursive(zipFilePath string, targetPaths []string, witho
 	}()
 
 	for _, targetPath := range targetPaths {
+		// resolve path
+		path, err := filepath.Abs(targetPath)
+		if err != nil {
+			return err
+		}
+		// walkFunc
 		walkFunc := func(filePath string, info os.FileInfo, err error) error {
-			return funcForWalkFunc(z, zw, filepath.Dir(targetPath), filePath, info, err)
+			prefixTrimmingRelativePath := filepath.Dir(path)
+			return funcForWalkFunc(z, zw, prefixTrimmingRelativePath, filePath, info, err)
 		}
 		if withoutRootDirectory {
 			walkFunc = func(filePath string, info os.FileInfo, err error) error {
-				if filePath == targetPath {
-					return nil
-				}
-				return funcForWalkFunc(z, zw, targetPath, filePath, info, err)
+				prefixTrimmingRelativePath := path
+				return funcForWalkFunc(z, zw, prefixTrimmingRelativePath, filePath, info, err)
 			}
 		}
-
-		if err := z.filepathWalkFn(targetPath, walkFunc); err != nil {
+		// walk
+		if err := z.filepathWalkFn(path, walkFunc); err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
@@ -68,22 +78,39 @@ func funcForWalkFunc(z *zipT, zw *zip.Writer, prefixTrimmingRelativePath string,
 		return err
 	}
 
-	relativePath := strings.TrimPrefix(strings.TrimPrefix(filePath, prefixTrimmingRelativePath), "/")
-	if info.IsDir() {
-		relativePath = relativePath + "/" // directory
+	if prefixTrimmingRelativePath == filePath {
+		if info.IsDir() {
+			return nil
+		}
+		// こうしなければ TrimPrefix() において s == prefix になってしまい、 relativePath == "" になってしまう。
+		prefixTrimmingRelativePath = filepath.Dir(filePath)
 	}
+
+	// /trim/path/to => /path/to
+	trimmedPath := strings.TrimPrefix(filePath, prefixTrimmingRelativePath)
+
+	// /path/to => path/to
+	relativePath := strings.TrimPrefix(trimmedPath, "/")
+
+	if info.IsDir() && !strings.HasSuffix(relativePath, "/") {
+		// path/to/dir => path/to/dir/
+		relativePath = relativePath + "/" // for adding empty directory to archive
+	}
+
 	destinationFile, err := z.zipWriterCreateFn(zw, relativePath)
 	if err != nil {
 		return err
 	}
+
 	if info.IsDir() {
-		return nil
+		return nil // for adding empty directory to archive
 	}
 
 	sourceFile, err := z.osOpenFn(filePath)
 	if err != nil {
 		return err
 	}
+
 	_, err = z.ioCopyFn(destinationFile, sourceFile)
 	if err != nil {
 		return err
