@@ -2,6 +2,7 @@ package utils
 
 import (
 	"archive/zip"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -9,19 +10,23 @@ import (
 )
 
 var ZIP = zipT{
-	filepathWalkFn:    filepath.Walk,
-	ioCopyFn:          io.Copy,
-	osCreateFn:        os.Create,
-	osOpenFn:          os.Open,
-	zipWriterCreateFn: zipWriterCreate,
+	filepathAbsZipFn:    filepath.Abs,
+	filepathAbsTargetFn: filepath.Abs,
+	filepathWalkFn:      filepath.Walk,
+	ioCopyFn:            io.Copy,
+	osCreateFn:          os.Create,
+	osOpenFn:            os.Open,
+	zipWriterCreateFn:   zipWriterCreate,
 }
 
 type zipT struct {
-	filepathWalkFn    func(root string, walkFn filepath.WalkFunc) error
-	ioCopyFn          func(dst io.Writer, src io.Reader) (written int64, err error)
-	osCreateFn        func(name string) (*os.File, error)
-	osOpenFn          func(name string) (*os.File, error)
-	zipWriterCreateFn func(w *zip.Writer, name string) (io.Writer, error)
+	filepathAbsZipFn    func(path string) (string, error)
+	filepathAbsTargetFn func(path string) (string, error)
+	filepathWalkFn      func(root string, walkFn filepath.WalkFunc) error
+	ioCopyFn            func(dst io.Writer, src io.Reader) (written int64, err error)
+	osCreateFn          func(name string) (*os.File, error)
+	osOpenFn            func(name string) (*os.File, error)
+	zipWriterCreateFn   func(w *zip.Writer, name string) (io.Writer, error)
 }
 
 func zipWriterCreate(w *zip.Writer, name string) (io.Writer, error) {
@@ -29,11 +34,16 @@ func zipWriterCreate(w *zip.Writer, name string) (io.Writer, error) {
 }
 
 func (z *zipT) ArchivesRecursive(zipFilePath string, targetPaths []string, withoutRootDirectory bool) (errForDeferClose error) {
-	if zipFilePath == "" || zipFilePath == "/" {
-		zipFilePath = "./default.zip"
+	zipFileAbsPath, err := z.filepathAbsZipFn(zipFilePath)
+	if err != nil {
+		return err
 	}
 
-	zipFile, err := z.osCreateFn(zipFilePath)
+	if OS.Exists(zipFileAbsPath) {
+		return fmt.Errorf("%s already exists", zipFileAbsPath)
+	}
+
+	zipFile, err := z.osCreateFn(zipFileAbsPath)
 	if err != nil {
 		return err
 	}
@@ -49,7 +59,7 @@ func (z *zipT) ArchivesRecursive(zipFilePath string, targetPaths []string, witho
 
 	for _, targetPath := range targetPaths {
 		// resolve path
-		path, err := filepath.Abs(targetPath)
+		path, err := z.filepathAbsTargetFn(targetPath)
 		if err != nil {
 			return err
 		}

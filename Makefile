@@ -29,14 +29,13 @@ lint: init ## run lint
 
 test: lint ## run test
 	# run test
-	go test -cover -race ./...
+	go test -race -covermode=atomic ./...
 
 test-v: lint ## run test
 	# run test
-	mkdir -p _test
 	go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 	go tool cover -html=coverage.txt -o coverage.html
-	${OPEN_CMD} _test/cover.html
+	${OPEN_CMD} coverage.html
 
 check-uncommitted:
 	@if [ "`git diff; git diff --staged`" != "" ]; then\
