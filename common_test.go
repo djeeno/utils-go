@@ -3,7 +3,7 @@ package utils
 import "errors"
 
 const (
-	testTmpRootDirPath = "/tmp/.golang/github.com/djeeno/utils"
+	testTmpRootDirPath = "/tmp/.go/src/github.com/djeeno/utils-go"
 )
 
 var (
