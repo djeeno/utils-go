@@ -36,8 +36,8 @@ func blobWriterClose(blobWriter *blob.Writer) error {
 	return blobWriter.Close()
 }
 
-func (b *blobT) PutFile(ctx context.Context, filePath string, bucket *blob.Bucket, blobPath string) error {
-	blobWriter, err := b.bucketNewWriterFn(bucket, ctx, blobPath, nil)
+func (b *blobT) PutFile(ctx context.Context, filePath string, bucket *blob.Bucket, blobPath string, opts *blob.WriterOptions) error {
+	blobWriter, err := b.bucketNewWriterFn(bucket, ctx, blobPath, opts)
 	defer func() { _ = b.blobWriterCloseFn(blobWriter) }()
 	if err != nil {
 		return err

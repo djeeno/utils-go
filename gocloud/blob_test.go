@@ -33,7 +33,7 @@ func TestBlobT_PutFile(t *testing.T) {
 		testBlob.ioutilReadAllFn = func(r io.Reader) (bytes []byte, e error) {
 			return nil, nil
 		}
-		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath); err != nil {
+		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath, nil); err != nil {
 			t.Errorf("TestBlobT_PutFile(): testBlob.PutFile(): err != nil: %v", err)
 		}
 	})
@@ -55,7 +55,7 @@ func TestBlobT_PutFile(t *testing.T) {
 		testBlob.ioutilReadAllFn = func(r io.Reader) (bytes []byte, e error) {
 			return nil, nil
 		}
-		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath); err == nil {
+		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath, nil); err == nil {
 			t.Errorf("TestBlobT_PutFile(): testBlob.PutFile(): err == nil")
 		}
 
@@ -78,7 +78,7 @@ func TestBlobT_PutFile(t *testing.T) {
 		testBlob.ioutilReadAllFn = func(r io.Reader) (bytes []byte, e error) {
 			return nil, nil
 		}
-		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath); err == nil {
+		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath, nil); err == nil {
 			t.Errorf("TestBlobT_PutFile(): testBlob.PutFile(): err == nil")
 		}
 	})
@@ -100,7 +100,7 @@ func TestBlobT_PutFile(t *testing.T) {
 		testBlob.ioutilReadAllFn = func(r io.Reader) (bytes []byte, e error) {
 			return nil, ErrorDummyErrorForTest
 		}
-		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath); err == nil {
+		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath, nil); err == nil {
 			t.Errorf("TestBlobT_PutFile(): testBlob.PutFile(): err == nil")
 		}
 	})
@@ -122,7 +122,7 @@ func TestBlobT_PutFile(t *testing.T) {
 		testBlob.ioutilReadAllFn = func(r io.Reader) (bytes []byte, e error) {
 			return nil, nil
 		}
-		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath); err == nil {
+		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath, nil); err == nil {
 			t.Errorf("TestBlobT_PutFile(): testBlob.PutFile(): err == nil")
 		}
 	})
@@ -144,7 +144,7 @@ func TestBlobT_PutFile(t *testing.T) {
 		testBlob.ioutilReadAllFn = func(r io.Reader) (bytes []byte, e error) {
 			return nil, nil
 		}
-		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath); err == nil {
+		if err := testBlob.PutFile(context.TODO(), testFilePath, &blob.Bucket{}, testBlobPath, nil); err == nil {
 			t.Errorf("TestBlobT_PutFile(): testBlob.PutFile(): err == nil")
 		}
 	})
