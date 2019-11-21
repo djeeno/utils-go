@@ -5,7 +5,11 @@ import (
 	"os"
 )
 
-var Fmt = fmtT{}
+func Fmt() *fmtT {
+	return &_fmt
+}
+
+var _fmt = fmtT{}
 
 type fmtT struct{}
 

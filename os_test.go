@@ -6,9 +6,13 @@ import (
 	"testing"
 )
 
+func TestOS(t *testing.T) {
+	_ = OS()
+}
+
 func TestOsT_GetEnvOrDefault(t *testing.T) {
 	t.Helper()
-	testOS := OS
+	testOS := _os
 
 	t.Run("normal/OS.GetEnvOrDefault/Get", func(t *testing.T) {
 		if err := os.Setenv("TEST_ENV", "assert"); err != nil {
@@ -31,7 +35,7 @@ func TestOsT_GetEnvOrDefault(t *testing.T) {
 
 func TestOsT_GetEnvOrFatal(t *testing.T) {
 	t.Helper()
-	testOS := OS
+	testOS := _os
 
 	testOS.logFatalfFn = log.Printf
 	testOS.GetEnvOrFatal("TestOsT_GetEnvOrFatal")
@@ -39,9 +43,16 @@ func TestOsT_GetEnvOrFatal(t *testing.T) {
 
 func TestOsT_Exists(t *testing.T) {
 	t.Helper()
-	testOS := OS
+	testOS := _os
 
 	if !testOS.Exists("/") {
 		t.Errorf("TestOsT_Exists(): testOS.Exists()")
 	}
+}
+
+func TestOsT_Hostname(t *testing.T) {
+	t.Helper()
+	testOS := _os
+
+	Log().Info("hostname", testOS.Hostname())
 }

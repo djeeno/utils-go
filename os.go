@@ -5,12 +5,17 @@ import (
 	"os"
 )
 
-var OS = osT{
+func OS() *osT {
+	return &_os
+}
+
+var _os = osT{
 	logFatalfFn: log.Fatalf,
 }
 
 type osT struct {
 	logFatalfFn func(format string, v ...interface{})
+	hostname    string
 }
 
 // GetEnvOrDefault finding a value corresponding to the passed environment variable key,
@@ -32,6 +37,13 @@ func (o osT) GetEnvOrFatal(key string) (value string) {
 		o.logFatalfFn("%s is empty.\n", key)
 	}
 	return value
+}
+
+func (o *osT) Hostname() string {
+	if o.hostname == "" {
+		o.hostname, _ = os.Hostname()
+	}
+	return o.hostname
 }
 
 // Exists returns true if anything exists in the path.

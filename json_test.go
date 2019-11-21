@@ -10,9 +10,13 @@ type testJSONT struct {
 	Test bool
 }
 
+func TestJSON(t *testing.T) {
+	_ = JSON()
+}
+
 func TestJsonT_Unmarshal(t *testing.T) {
 	t.Helper()
-	testJSON := JSON
+	testJSON := _json
 
 	t.Run("normal/JSON.Unmarshal", func(t *testing.T) {
 		testStruct := testJSONT{}

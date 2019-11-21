@@ -1,43 +1,75 @@
 package utils
 
 import (
-	"log"
+	"github.com/rs/zerolog"
+	zlog "github.com/rs/zerolog/log"
 	"testing"
 )
 
-func TestLogT_IsDebug(t *testing.T) {
-	t.Helper()
-	testLog := Log
-
-	testLog.IsDebug()
+func TestLog(t *testing.T) {
+	_ = Log()
 }
 
-func TestLogT_SetDebug(t *testing.T) {
+func TestLogT_SetDebugLevel(t *testing.T) {
 	t.Helper()
-	testLog := Log
+	testLog := _log
 
-	testLog.SetDebug(true)
+	testLog.SetDebugLevel(zerolog.TraceLevel)
 }
 
-func TestLogT_Debugfln(t *testing.T) {
+func TestLogT_NoLevel(t *testing.T) {
 	t.Helper()
-	testLog := Log
+	testLog := _log
 
-	testLog.SetDebug(true)
-	testLog.Debugfln("test: %s", "TestLogT_Debugfln()")
+	testLog.NoLevel("test", "sample log")
+}
+func TestLogT_Trace(t *testing.T) {
+	t.Helper()
+	testLog := _log
+
+	testLog.Trace("test", "sample log")
 }
 
-func TestLogT_Printfln(t *testing.T) {
+func TestLogT_Debug(t *testing.T) {
 	t.Helper()
-	testLog := Log
+	testLog := _log
 
-	testLog.Printfln("test: %s", "TestLogT_Printfln()")
+	testLog.Debug("test", "sample log")
 }
 
-func TestLogT_Fatalfln(t *testing.T) {
+func TestLogT_Info(t *testing.T) {
 	t.Helper()
-	testLog := Log
+	testLog := _log
 
-	testLog.fatallnFn = log.Println
-	testLog.Fatalfln("test: %s", "TestLogT_Fatalfln()")
+	testLog.Info("test", "sample log")
+}
+
+func TestLogT_Warn(t *testing.T) {
+	t.Helper()
+	testLog := _log
+
+	testLog.Warn("test", "sample log")
+}
+
+func TestLogT_Error(t *testing.T) {
+	t.Helper()
+	testLog := _log
+
+	testLog.Error("test", "sample log")
+}
+
+func TestLogT_Fatal(t *testing.T) {
+	t.Helper()
+	testLog := _log
+	testLog.zerologlogFatalFn = zlog.Log
+
+	testLog.Fatal("test", "sample log")
+}
+
+func TestLogT_Panic(t *testing.T) {
+	t.Helper()
+	testLog := _log
+	testLog.zerologlogPanicFn = zlog.Log
+
+	testLog.Panic("test", "sample log")
 }

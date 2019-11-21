@@ -9,7 +9,11 @@ import (
 	"strings"
 )
 
-var ZIP = zipT{
+func ZIP() *zipT {
+	return &_zip
+}
+
+var _zip = zipT{
 	filepathAbsZipFn:    filepath.Abs,
 	filepathAbsTargetFn: filepath.Abs,
 	filepathWalkFn:      filepath.Walk,
@@ -39,7 +43,7 @@ func (z *zipT) ArchivesRecursive(zipFilePath string, targetPaths []string, witho
 		return err
 	}
 
-	if OS.Exists(zipFileAbsPath) {
+	if OS().Exists(zipFileAbsPath) {
 		return fmt.Errorf("%s already exists", zipFileAbsPath)
 	}
 

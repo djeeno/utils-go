@@ -10,9 +10,13 @@ const (
 	localhostV4 = "127.0.0.1"
 )
 
+func TestNet(t *testing.T) {
+	_ = Net()
+}
+
 func TestIpT_UnmarshalText(t *testing.T) {
 	t.Helper()
-	testNet := Net
+	testNet := _net
 
 	ip, err := testNet.IP.UnmarshalText([]byte(localhostV4))
 	if err != nil {

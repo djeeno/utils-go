@@ -6,9 +6,13 @@ import (
 	"testing"
 )
 
+func TestMultipart(t *testing.T) {
+	_ = Multipart()
+}
+
 func TestMultipartT_CreateFormFile(t *testing.T) {
 	t.Helper()
-	testMultipart := Multipart
+	testMultipart := _multipart
 
 	requestBody := &bytes.Buffer{}
 	multipartWriter := multipart.NewWriter(requestBody)

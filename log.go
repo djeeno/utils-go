@@ -2,40 +2,82 @@ package utils
 
 import (
 	"fmt"
-	"log"
+	"github.com/rs/zerolog"
+	zlog "github.com/rs/zerolog/log"
 )
 
-var Log = logT{
-	debug:     false,
-	fatallnFn: log.Fatalln,
+func Log() *logT {
+	return &_log
+}
+
+var _log = logT{
+	hostname:          OS().Hostname(),
+	zerologlogFatalFn: zlog.Fatal,
+	zerologlogPanicFn: zlog.Panic,
 }
 
 type logT struct {
-	debug     bool
-	fatallnFn func(v ...interface{})
+	hostname          string
+	zerologlogFatalFn func() *zerolog.Event
+	zerologlogPanicFn func() *zerolog.Event
 }
 
-func (l *logT) IsDebug() bool {
-	return l.debug
+func (l *logT) SetDebugLevel(level zerolog.Level) {
+	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 }
 
-func (l *logT) SetDebug(flag bool) {
-	l.debug = flag
+func (l *logT) NoLevel(logType, format string, a ...interface{}) {
+	zlog.Log().
+		Str("hostname", OS().Hostname()).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
 }
 
-func (l *logT) Debugfln(format string, a ...interface{}) {
-	if l.debug {
-		l.Printfln(fmt.Sprintf(format, a...))
-	}
+func (l *logT) Trace(logType, format string, a ...interface{}) {
+	zlog.Trace().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
 }
 
-// Printfln calls Output to print to the standard logger *with new line*.
-// Arguments are handled in the manner of fmt.Print.
-func (*logT) Printfln(format string, a ...interface{}) {
-	log.Println(fmt.Sprintf(format, a...))
+func (l *logT) Debug(logType, format string, a ...interface{}) {
+	zlog.Debug().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
 }
 
-// Fatalfln is equivalent to Printfln() followed by a call to os.Exit(1).
-func (l *logT) Fatalfln(format string, a ...interface{}) {
-	l.fatallnFn(fmt.Sprintf(format, a...))
+func (l *logT) Info(logType, format string, a ...interface{}) {
+	zlog.Info().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
+}
+
+func (l *logT) Warn(logType, format string, a ...interface{}) {
+	zlog.Warn().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
+}
+
+func (l *logT) Error(logType, format string, a ...interface{}) {
+	zlog.Error().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
+}
+
+func (l *logT) Fatal(logType, format string, a ...interface{}) {
+	l.zerologlogFatalFn().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
+}
+
+func (l *logT) Panic(logType, format string, a ...interface{}) {
+	l.zerologlogPanicFn().
+		Str("hostname", l.hostname).
+		Str("type", logType).
+		Msg(fmt.Sprintf(format, a...))
 }

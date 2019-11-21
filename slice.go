@@ -1,6 +1,10 @@
 package utils
 
-var Slice = sliceT{
+func Slice() *sliceT {
+	return &_slice
+}
+
+var _slice = sliceT{
 	Int: intT{},
 }
 

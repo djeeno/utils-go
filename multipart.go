@@ -5,7 +5,11 @@ import (
 	"mime/multipart"
 )
 
-var Multipart = multipartT{}
+func Multipart() *multipartT {
+	return &_multipart
+}
+
+var _multipart = multipartT{}
 
 type multipartT struct{}
 

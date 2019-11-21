@@ -17,7 +17,7 @@ type experimentT struct {
 
 var experimentHTTP = httpT{
 	httpPost:                http.Post,
-	multipartCreateFormFile: Multipart.CreateFormFile,
+	multipartCreateFormFile: _multipart.CreateFormFile,
 	ioCopy:                  io.Copy,
 }
 

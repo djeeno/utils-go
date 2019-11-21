@@ -8,7 +8,11 @@ import (
 	"os"
 )
 
-var Blob = blobT{
+func Blob() *blobT {
+	return &_blob
+}
+
+var _blob = blobT{
 	blobWriterCloseFn: blobWriterClose,
 	blobWriterWriteFn: blobWriterWrite,
 	bucketNewWriterFn: bucketNewWriter,

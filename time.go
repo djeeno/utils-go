@@ -5,7 +5,11 @@ import (
 	"time"
 )
 
-var Time timeT
+func Time() *timeT {
+	return &_time
+}
+
+var _time = timeT{}
 
 type timeT struct{}
 

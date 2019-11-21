@@ -2,7 +2,11 @@ package utils
 
 import "net"
 
-var Net = netT{
+func Net() *netT {
+	return &_net
+}
+
+var _net = netT{
 	IP: &ipT{},
 }
 

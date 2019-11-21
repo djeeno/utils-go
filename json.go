@@ -6,7 +6,11 @@ import (
 	"io/ioutil"
 )
 
-var JSON = jsonT{
+func JSON() *jsonT {
+	return &_json
+}
+
+var _json = jsonT{
 	ioutilReadAllFn: ioutil.ReadAll,
 }
 

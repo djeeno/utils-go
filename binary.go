@@ -6,7 +6,11 @@ type ByteOrder interface {
 	String() string
 }
 
-var Binary = binaryT{
+func Binary() *binaryT {
+	return &_binary
+}
+
+var _binary = binaryT{
 	BigEndian:    bigEndianT{},
 	LittleEndian: littleEndianT{},
 }

@@ -7,7 +7,11 @@ import (
 	"io/ioutil"
 )
 
-var MD5 = md5T{
+func MD5() *md5T {
+	return &_md5
+}
+
+var _md5 = md5T{
 	ioutilReadAllFn: ioutil.ReadAll,
 }
 
