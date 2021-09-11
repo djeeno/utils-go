@@ -8,12 +8,12 @@ import (
 
 func TestIntSliceContains(t *testing.T) {
 	testIntSlice := []int{0, 1, 2}
-	t.Run("TestIntSliceContains/true", func(t *testing.T) {
+	t.Run("ContainsInt/true", func(t *testing.T) {
 		if !utils.Slice.ContainsInt(testIntSlice, 0) {
 			t.Fail()
 		}
 	})
-	t.Run("TestIntSliceContains/false", func(t *testing.T) {
+	t.Run("ContainsInt/false", func(t *testing.T) {
 		if utils.Slice.ContainsInt(testIntSlice, 3) {
 			t.Fail()
 		}
@@ -22,12 +22,12 @@ func TestIntSliceContains(t *testing.T) {
 
 func TestStringSliceContains(t *testing.T) {
 	testStringSlice := []string{"0", "1", "2"}
-	t.Run("TestStringSliceContains/true", func(t *testing.T) {
+	t.Run("ContainsString/true", func(t *testing.T) {
 		if !utils.Slice.ContainsString(testStringSlice, "0") {
 			t.Fail()
 		}
 	})
-	t.Run("TestStringSliceContains/false", func(t *testing.T) {
+	t.Run("ContainsString/false", func(t *testing.T) {
 		if utils.Slice.ContainsString(testStringSlice, "3") {
 			t.Fail()
 		}
