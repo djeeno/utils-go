@@ -9,7 +9,7 @@ tidy:
 
 .PHONY: lint
 lint:  ## lint
-	command -v golangci-lint || go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
+	command -v golangci-lint || go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42
 	golangci-lint run
 
 .PHONY: test

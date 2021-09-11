@@ -22,7 +22,7 @@ defaults:
 
 
 jobs:
-  v1ci:
+  ci:
     name: v1 CI
     # cf. https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-20.04
@@ -50,11 +50,10 @@ jobs:
         run: |
           go mod tidy && git diff --exit-code
 
-      # cf. https://github.com/actions/cache#skipping-steps-based-on-cache-hit
-      - name: Run golangci-lint run
-        run: |
-          command -v golangci-lint || go install -v github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.1
-          golangci-lint run
+      # cf. https://github.com/golangci/golangci-lint-action#how-to-use
+      - uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.42
 
       - name: Run go test
         run: |
