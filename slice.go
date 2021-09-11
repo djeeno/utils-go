@@ -3,7 +3,7 @@ package utils
 // SliceUtils is an empty structure that is prepared only for creating methods.
 type SliceUtils struct{}
 
-// Slice is an entity that allows the methods of IntSliceUtils to be executed from outside the package without initializing IntSliceUtils.
+// Slice is an entity that allows the methods of SliceUtils to be executed from outside the package without initializing SliceUtils.
 var Slice *SliceUtils
 
 // ContainsInt returns whether or not the passed slice contains the passed value.

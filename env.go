@@ -11,7 +11,7 @@ import (
 // EnvUtils is an empty structure that is prepared only for creating methods.
 type EnvUtils struct{}
 
-// Env is an entity that allows the methods of IntSliceUtils to be executed from outside the package without initializing IntSliceUtils.
+// Env is an entity that allows the methods of EnvUtils to be executed from outside the package without initializing EnvUtils.
 var Env *EnvUtils
 
 // GetOrDefaultString returns the value of the environment variable `env` if it is set, or `defaultValue` if it is not set.
